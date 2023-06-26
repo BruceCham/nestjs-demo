@@ -1,33 +1,44 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreatePostsDto, Post } from './posts.interface';
+import { Post as PostModel } from './posts.entity';
 
 @Injectable()
 export class PostsService {
+  constructor(
+    @InjectRepository(PostModel) private postRepository: Repository<PostModel>,
+  ) {}
+
   private readonly posts: Post[] = [];
 
-  create(post: Post) {
-    this.posts.push(post);
+  async create(post: Post) {
+    return this.postRepository.insert(post);
   }
 
   getPosts() {
-    return this.posts;
+    return this.postRepository.find();
   }
 
   getPostById(id: string) {
-    return this.posts.find((item) => item.id === id);
+    return {
+      id,
+    };
+    // return this.postRepository.findOne(id);
   }
 
   putPostById(id: string, post: CreatePostsDto) {
-    const index = this.posts.findIndex((item) => item.id === id);
-    this.posts[index] = {
-      ...post,
+    return {
       id,
+      post,
     };
-    return this.posts[index];
   }
 
   deleteById(id: string) {
-    const index = this.posts.findIndex((item) => item.id === id);
-    return this.posts.splice(index, 1);
+    return {
+      id,
+    };
+    // const index = this.posts.findIndex((item) => item.id === id);
+    // return this.posts.splice(index, 1);
   }
 }

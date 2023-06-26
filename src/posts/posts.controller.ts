@@ -25,10 +25,7 @@ export class PostsController {
   @Post()
   @ApiOperation({ summary: '创建文章信息' })
   async createPost(@Body() createPostsDto: CreatePostsDto) {
-    return this.postsService.create({
-      id: Date.now().toString(),
-      ...createPostsDto,
-    });
+    return this.postsService.create(createPostsDto);
   }
 
   @Get(':id')
