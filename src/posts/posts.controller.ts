@@ -30,19 +30,19 @@ export class PostsController {
 
   @Get(':id')
   @ApiOperation({ summary: '获取指定文章信息' })
-  getPostById(@Param('id') id: string) {
+  getPostById(@Param('id') id: number) {
     return this.postsService.getPostById(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: '编辑指定文章的信息' })
-  async updatePost(@Param('id') id: string, @Body() body: CreatePostsDto) {
+  async updatePost(@Param('id') id: number, @Body() body: CreatePostsDto) {
     return this.postsService.putPostById(id, body);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: '删除指定文章' })
-  async deletePost(@Param('id') id: string) {
+  async deletePost(@Param('id') id: number) {
     return this.postsService.deleteById(id);
   }
 }

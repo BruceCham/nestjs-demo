@@ -20,25 +20,15 @@ export class PostsService {
     return this.postRepository.find();
   }
 
-  getPostById(id: string) {
-    return {
-      id,
-    };
-    // return this.postRepository.findOne(id);
+  getPostById(id: number) {
+    return this.postRepository.findOneBy({ id });
   }
 
-  putPostById(id: string, post: CreatePostsDto) {
-    return {
-      id,
-      post,
-    };
+  async putPostById(id: number, post: CreatePostsDto) {
+    return await this.postRepository.update(id, post);
   }
 
-  deleteById(id: string) {
-    return {
-      id,
-    };
-    // const index = this.posts.findIndex((item) => item.id === id);
-    // return this.posts.splice(index, 1);
+  deleteById(id: number) {
+    return this.postRepository.delete(id);
   }
 }
