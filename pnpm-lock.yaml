@@ -4,6 +4,7 @@ specifiers:
   '@nestjs/cli': ^10.0.0
   '@nestjs/common': ^10.0.0
   '@nestjs/core': ^10.0.0
+  '@nestjs/mapped-types': ^2.0.2
   '@nestjs/platform-express': ^10.0.0
   '@nestjs/schematics': ^10.0.0
   '@nestjs/swagger': ^7.0.4
@@ -38,6 +39,7 @@ specifiers:
 dependencies:
   '@nestjs/common': 10.0.3_4ee63e19ab32bfd7441e77a5477b41c6
   '@nestjs/core': 10.0.3_84feb46db6b48e9df312ff39ba143798
+  '@nestjs/mapped-types': 2.0.2_fb4df04baf4cf2b830d21e9f5695924d
   '@nestjs/platform-express': 10.0.3_a5bb41c3a3403c6d929afc30f93131fc
   '@nestjs/swagger': 7.0.4_e6555cd0382fd03d9d44fd9d4a44d5e3
   '@nestjs/typeorm': 10.0.0_182b547f60cac21ab7505c2b1c57d3b6

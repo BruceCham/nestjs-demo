@@ -10,8 +10,9 @@ import {
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { PostDto } from './dto/post.dto';
+import { CreatePostDto } from './dto/create-post.dto';
 import { PostsService } from './posts.service';
+import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
 @ApiTags('文章模块相关接口')
@@ -27,7 +28,7 @@ export class PostsController {
 
   @Post()
   @ApiOperation({ summary: '创建文章信息' })
-  async createPost(@Body() post: PostDto) {
+  async createPost(@Body() post: CreatePostDto) {
     return this.postsService.create(post);
   }
 
@@ -39,7 +40,7 @@ export class PostsController {
 
   @Put(':id')
   @ApiOperation({ summary: '编辑指定文章的信息' })
-  async updatePost(@Param('id') id: number, @Body() post: PostDto) {
+  async updatePost(@Param('id') id: number, @Body() post: UpdatePostDto) {
     return this.postsService.putPostById(id, post);
   }
 
