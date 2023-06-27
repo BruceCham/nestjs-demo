@@ -9,7 +9,7 @@ import { DataSource } from 'typeorm';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PostsModule } from './posts/posts.module';
-import { Post } from './posts/posts.entity';
+import { Post } from './posts/entities/post.entity';
 
 @Dependencies(DataSource)
 @Module({

@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { CreatePostsDto, Post } from './posts.interface';
-import { Post as PostModel } from './posts.entity';
+import { PostDto, Post } from './dto/post.dto';
+import { Post as PostModel } from './entities/post.entity';
 
 @Injectable()
 export class PostsService {
@@ -24,7 +24,7 @@ export class PostsService {
     return this.postRepository.findOneBy({ id });
   }
 
-  async putPostById(id: number, post: CreatePostsDto) {
+  async putPostById(id: number, post: PostDto) {
     return await this.postRepository.update(id, post);
   }
 

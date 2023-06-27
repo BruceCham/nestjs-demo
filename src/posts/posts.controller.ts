@@ -3,12 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  HttpCode,
+  HttpStatus,
   Param,
   Post,
   Put,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
-import { CreatePostsDto } from './posts.interface';
+import { PostDto } from './dto/post.dto';
 import { PostsService } from './posts.service';
 
 @Controller('posts')
@@ -18,14 +20,15 @@ export class PostsController {
 
   @Get()
   @ApiOperation({ summary: '获取文章列表' })
+  // @HttpCode(HttpStatus.GONE)
   index() {
     return this.postsService.getPosts();
   }
 
   @Post()
   @ApiOperation({ summary: '创建文章信息' })
-  async createPost(@Body() createPostsDto: CreatePostsDto) {
-    return this.postsService.create(createPostsDto);
+  async createPost(@Body() post: PostDto) {
+    return this.postsService.create(post);
   }
 
   @Get(':id')
@@ -36,8 +39,8 @@ export class PostsController {
 
   @Put(':id')
   @ApiOperation({ summary: '编辑指定文章的信息' })
-  async updatePost(@Param('id') id: number, @Body() body: CreatePostsDto) {
-    return this.postsService.putPostById(id, body);
+  async updatePost(@Param('id') id: number, @Body() post: PostDto) {
+    return this.postsService.putPostById(id, post);
   }
 
   @Delete(':id')
