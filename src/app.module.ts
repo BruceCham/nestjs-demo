@@ -9,23 +9,11 @@ import { DataSource } from 'typeorm';
 
 import { LoggerMiddleware } from './common/middleware/logger.middleware';
 import { PostsModule } from './posts/posts.module';
-import { Post } from './posts/entities/post.entity';
+import { MySQL } from './config/db.config';
 
 @Dependencies(DataSource)
 @Module({
-  imports: [
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: 'localhost',
-      port: 3306,
-      username: 'root',
-      password: 'rootroot',
-      database: 'test',
-      entities: [Post],
-      synchronize: true,
-    }),
-    PostsModule,
-  ],
+  imports: [TypeOrmModule.forRoot(MySQL), PostsModule],
 })
 export class AppModule implements NestModule {
   dataSource: any;

@@ -23,7 +23,7 @@ export class PostsController {
   @ApiOperation({ summary: '获取文章列表' })
   // @HttpCode(HttpStatus.GONE)
   index() {
-    return this.postsService.getPosts();
+    return this.postsService.findAll();
   }
 
   @Post()
@@ -35,18 +35,18 @@ export class PostsController {
   @Get(':id')
   @ApiOperation({ summary: '获取指定文章信息' })
   getPostById(@Param('id') id: number) {
-    return this.postsService.getPostById(id);
+    return this.postsService.findOne(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: '编辑指定文章的信息' })
   async updatePost(@Param('id') id: number, @Body() post: UpdatePostDto) {
-    return this.postsService.putPostById(id, post);
+    return this.postsService.update(id, post);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: '删除指定文章' })
   async deletePost(@Param('id') id: number) {
-    return this.postsService.deleteById(id);
+    return this.postsService.remove(id);
   }
 }
