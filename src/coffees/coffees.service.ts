@@ -31,7 +31,7 @@ export class CoffeesService {
 
   async update(id: number, updateCoffeeDto: UpdateCoffeeDto) {
     const coffee = await this.coffeeRepository.preload({
-      id: +id,
+      id,
       ...updateCoffeeDto,
     });
     if (!coffee) {
