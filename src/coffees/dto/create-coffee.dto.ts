@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsArray, IsString } from 'class-validator';
 
 export class CreateCoffeeDto {
   @IsString()
@@ -10,7 +10,7 @@ export class CreateCoffeeDto {
   @ApiProperty({ description: '咖啡品牌' })
   readonly brand: string;
 
-  @IsString()
+  @IsString({ each: true })
   @ApiProperty({ description: '咖啡特色' })
   readonly flavors: string[];
 }
