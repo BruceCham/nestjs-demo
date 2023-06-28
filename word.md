@@ -6,6 +6,7 @@ kill -9 26682
 
 
 <!-- docker desktop -->
+<!-- navicat for mysql -->
 <!-- 启动docker环境 -->
 docker-compose up
 

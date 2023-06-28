@@ -15,38 +15,37 @@ import { PostsService } from './posts.service';
 import { UpdatePostDto } from './dto/update-post.dto';
 
 @Controller('posts')
-@ApiTags('文章模块相关接口')
+@ApiTags('文章 - 相关接口')
 export class PostsController {
   constructor(private postsService: PostsService) {}
 
   @Get()
   @ApiOperation({ summary: '获取文章列表' })
-  // @HttpCode(HttpStatus.GONE)
-  index() {
+  findAll() {
     return this.postsService.findAll();
   }
 
   @Post()
   @ApiOperation({ summary: '创建文章信息' })
-  async createPost(@Body() post: CreatePostDto) {
+  async create(@Body() post: CreatePostDto) {
     return this.postsService.create(post);
   }
 
   @Get(':id')
   @ApiOperation({ summary: '获取指定文章信息' })
-  getPostById(@Param('id') id: number) {
+  findOne(@Param('id') id: number) {
     return this.postsService.findOne(id);
   }
 
   @Put(':id')
   @ApiOperation({ summary: '编辑指定文章的信息' })
-  async updatePost(@Param('id') id: number, @Body() post: UpdatePostDto) {
+  async update(@Param('id') id: number, @Body() post: UpdatePostDto) {
     return this.postsService.update(id, post);
   }
 
   @Delete(':id')
   @ApiOperation({ summary: '删除指定文章' })
-  async deletePost(@Param('id') id: number) {
+  async remove(@Param('id') id: number) {
     return this.postsService.remove(id);
   }
 }

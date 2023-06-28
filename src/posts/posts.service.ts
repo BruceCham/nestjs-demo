@@ -11,8 +11,6 @@ export class PostsService {
     @InjectRepository(Post) private postRepository: Repository<Post>,
   ) {}
 
-  private readonly posts: CreatePostDto[] = [];
-
   async create(createPostDto: CreatePostDto) {
     const post = this.postRepository.create(createPostDto);
     return this.postRepository.save(post);
