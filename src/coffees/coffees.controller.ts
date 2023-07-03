@@ -6,11 +6,13 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { CoffeesService } from './coffees.service';
 import { CreateCoffeeDto } from './dto/create-coffee.dto';
 import { UpdateCoffeeDto } from './dto/update-coffee.dto';
+import { PaginationQueryDto } from 'src/common/dto/pagination-query.dto';
 
 @Controller('coffees')
 @ApiTags('咖啡 - 相关接口')
@@ -19,8 +21,9 @@ export class CoffeesController {
 
   @Get()
   @ApiOperation({ summary: '获取咖啡列表' })
-  findAll() {
-    return this.coffeeService.findAll();
+  findAll(@Query() paginationQueryDto: PaginationQueryDto) {
+    // throw new HttpException('Forbidden', HttpStatus.FORBIDDEN);
+    return this.coffeeService.findAll(paginationQueryDto);
   }
 
   @Post()

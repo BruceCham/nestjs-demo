@@ -21,7 +21,7 @@ export class PostsService {
   }
 
   async findOne(id: number) {
-    const post = await this.postRepository.findOneBy({ id });
+    const post = await this.postRepository.findOne(id);
     if (!post) {
       throw new NotFoundException(`post ${id} not found`);
     }
