@@ -1,0 +1,104 @@
+<!--
+ * @Author: zhanglitao@zuoyebang.com
+ * @Date: 2023-07-09 15:53:10
+ * @LastEditors: zhanglitao@zuoyebang.com
+ * @LastEditTime: 2023-07-10 14:44:58
+ * @FilePath: /nestjs-demo/client/replay.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+  <div id="app">
+    <el-table :data="list" style="width: 100%" :row-class-name="tableRowClassName">
+      <el-table-column prop="id" label="id" width="180">
+      </el-table-column>
+      <el-table-column prop="sn" label="设备号" width="180">
+      </el-table-column>
+      <el-table-column prop="createdAt" label="创建时间">
+      </el-table-column>
+      <el-table-column prop="updateAt" label="更新时间">
+      </el-table-column>
+          <el-table-column fixed="right" label="操作" width="100">
+            <template slot-scope="scope">
+              <el-button @click="handlePlay(scope.row)" type="text" size="small">播放</el-button>
+              <el-button @click="handleDelete(scope.row)" type="text" size="small">删除</el-button>
+            </template>
+          </el-table-column>
+    </el-table>
+
+    <!-- <el-dialog title="提示" :visible.sync="dialogVisible" width="80%">
+      <div id="dialog_play"></div>
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisible = false">取 消</el-button>
+        <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+      </span> -->
+    <!-- </el-dialog> -->
+    <div id="dialog_play" style="width: 913.92px; height: 672px;margin: 10px auto;"></div>
+  </div>
+</body>
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script src="https://unpkg.com/timecatjs"></script>
+<script type="module">
+  // import { Player } from './dist/xreplay-player.esm.js';
+  const { Player } = window.TimeCat;
+  new Vue({
+    el: '#app',
+    data: {
+      player: null,
+      list: [],
+      dialogVisible: false,
+    },
+    async mounted() {
+      fetch('http://localhost:3000/records').then(res => {
+        return res.json();
+      }).then(response => {
+        const { statusCode, data } = response;
+        if (statusCode === 0) {
+          this.list = data;
+        }
+      })
+    },
+    methods: {
+      handlePlay(row) {
+        this.player && this.player.destroy({ removeDOM: true })
+
+        this.dialogVisible = true;
+        let records = [];
+        try {
+          records = JSON.parse(row.record);
+        } catch (err) {
+          console.log('brucecham record data error');
+          return;
+        }
+        this.player = new Player({
+          target: document.querySelector('#dialog_play'),
+          autoplay: true,
+          heatPoints: true,
+          records: records,
+        });
+      },
+      handleDelete(row) {
+        fetch(`http://localhost:3000/records/${row.id}`, {
+          method: "DELETE"
+        }).then(res => {
+          return res.json();
+        }).then(response => {
+          console.log('brucecham delete', response)
+          window.location.reload();
+        })
+      }
+    }
+  })
+</script>
+
+</html>

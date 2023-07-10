@@ -1,0 +1,94 @@
+<!--
+ * @Author: zhanglitao@zuoyebang.com
+ * @Date: 2023-07-09 15:53:10
+ * @LastEditors: zhanglitao@zuoyebang.com
+ * @LastEditTime: 2023-07-10 12:27:12
+ * @FilePath: /nestjs-demo/client/record.html
+ * @Description: 
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+</head>
+
+<body>
+<div id="app">
+  <el-input v-model="message"></el-input>
+  <br />
+  <el-button @click="visible = true">Button</el-button>
+  <br />
+  <el-dialog :visible.sync="visible" title="Hello world">
+    <p>Try Element</p>
+  </el-dialog>
+  <el-button @click="upload">上传</el-button>
+</div>
+</body>
+<script src="https://unpkg.com/vue@2/dist/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<script type="module">
+  import { Recorder } from './dist/xreplay-recorder.esm.js';
+  import { openDB, deleteDB, wrap, unwrap } from 'https://unpkg.com/idb?module';
+  new Vue({
+    el: '#app',
+    data: {
+      message: 'Hello Vue!',
+      visible: false,
+    },
+    async mounted() {
+      await deleteDB('xreplay');
+      const db = await openDB('xreplay', 2, {
+        upgrade(db) {
+          const store = db.createObjectStore('records', {
+            keyPath: 'id',
+            autoIncrement: true,
+          });
+        }
+      });
+      const recorder = new Recorder({
+        disableWatchers: [
+          // 'Snapshot',
+          'LocationWatcher',
+          // 'DOMWatcher',
+          'FormElementWatcher',
+          'MouseWatcher',
+          'ScrollWatcher',
+          'WindowWatcher',
+          'FontWatcher',
+          'TerminateWatcher'
+        ]
+      });
+      recorder.onData(async record => {
+        await db.add('records', record);
+      });
+    },
+    methods: {
+      async upload() {
+        console.log('brucecham to upload');
+        const db = await openDB('xreplay', 2);
+        const records = await db.getAll('records');
+        console.log('brucecham records', records);
+        fetch('http://localhost:3000/records', {
+          method: 'post',
+          body: JSON.stringify({
+            sn: Date.now(),
+            record: JSON.stringify(records),
+          }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        }).then(function (data) {
+          console.log('upload success', data);
+        });
+        
+
+      }
+    }
+  })
+</script>
+
+</html>
