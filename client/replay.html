@@ -2,7 +2,7 @@
  * @Author: zhanglitao@zuoyebang.com
  * @Date: 2023-07-09 16:30:14
  * @LastEditors: zhanglitao@zuoyebang.com
- * @LastEditTime: 2023-08-04 11:48:26
+ * @LastEditTime: 2023-08-04 18:23:23
  * @FilePath: /nestjs-demo/client/replay.html
  * @Description: some description for file
 -->
@@ -38,9 +38,9 @@
 </body>
 <script src="./dist/vue.js"></script>
 <script src="./dist/element.js"></script>
-<script src="./dist/timecat.global.js"></script>
+<script src="./dist/player.global.js"></script>
 <script type="module">
-  const { Player } = window.TimeCat;
+  const { Player } = window;
   new Vue({
     el: '#app',
     data: {
@@ -49,29 +49,30 @@
       dialogVisible: false,
     },
     async mounted() {
-      fetch('http://localhost:8099/pad-admin-node/records').then(res => {
+      fetch('http://localhost:8099/pad-admin-node/records/getList').then(res => {
         return res.json();
       }).then(response => {
-        const { statusCode, data } = response;
-        if (statusCode === 0) {
+        const { errNo, data } = response;
+        if (errNo === 0) {
           this.list = data;
         }
       })
     },
     methods: {
-      handlePlay(row) {
+      async handlePlay(row) {
         this.player && this.player.destroy({ removeDOM: true })
 
         this.dialogVisible = true;
+        const response = await fetch(`http://localhost:8099/pad-admin-node/records/getCosInfo?id=${row.cosUri}`).then(res => res.json())
+        let { data } = response;
         let records = [];
         try {
-          records = JSON.parse(row.record);
+          records = JSON.parse(data.record);
         } catch (err) {
           console.log('brucecham record data error');
           return;
         }
-        // records[15].data.strokes = records[15].data.strokes.slice(-7);
-        console.log(records)
+        
         this.player = new Player({
           target: document.querySelector('#dialog_play'),
           autoplay: true,

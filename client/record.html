@@ -2,7 +2,7 @@
  * @Author: zhanglitao@zuoyebang.com
  * @Date: 2023-07-09 15:53:10
  * @LastEditors: zhanglitao@zuoyebang.com
- * @LastEditTime: 2023-08-03 12:25:39
+ * @LastEditTime: 2023-08-04 18:53:46
  * @FilePath: /nestjs-demo/client/record.html
  * @Description: 
 -->
@@ -33,15 +33,17 @@
 <script type="module">
 
 
+// const STORE_KEY = 'wrongBookRecommend';
 // const recorder = new window.Recorder({
-//   pageKey: 'wbRecommend'
+//   storeKey: STORE_KEY
 // })
 // window.upload = async () => {
 //   const records = await recorder.readDB();
-//   fetch('http://10.254.44.36:3000/records', {
+//   fetch('http://10.254.44.36:8099/pad-admin-node/records', {
 //     method: 'post',
 //     body: JSON.stringify({
 //       sn: Date.now(),
+//       storeKey: STORE_KEY,
 //       record: JSON.stringify(records),
 //       apmEvent: ''
 //     }),
