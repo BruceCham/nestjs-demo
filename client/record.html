@@ -2,7 +2,7 @@
  * @Author: zhanglitao@zuoyebang.com
  * @Date: 2023-07-09 15:53:10
  * @LastEditors: zhanglitao@zuoyebang.com
- * @LastEditTime: 2023-07-10 12:27:12
+ * @LastEditTime: 2023-08-03 12:25:39
  * @FilePath: /nestjs-demo/client/record.html
  * @Description: 
 -->
@@ -31,6 +31,28 @@
 <script src="https://unpkg.com/vue@2/dist/vue.js"></script>
 <script src="https://unpkg.com/element-ui/lib/index.js"></script>
 <script type="module">
+
+
+// const recorder = new window.Recorder({
+//   pageKey: 'wbRecommend'
+// })
+// window.upload = async () => {
+//   const records = await recorder.readDB();
+//   fetch('http://10.254.44.36:3000/records', {
+//     method: 'post',
+//     body: JSON.stringify({
+//       sn: Date.now(),
+//       record: JSON.stringify(records),
+//       apmEvent: ''
+//     }),
+//     headers: {
+//       'Content-Type': 'application/json'
+//     }
+//   }).then(function (data) {
+//     console.log('upload success', data);
+//   });
+// }
+
   import { Recorder } from './dist/xreplay-recorder.esm.js';
   import { openDB, deleteDB, wrap, unwrap } from 'https://unpkg.com/idb?module';
   new Vue({
@@ -77,6 +99,7 @@
           body: JSON.stringify({
             sn: Date.now(),
             record: JSON.stringify(records),
+            apmEvent: ''
           }),
           headers: {
             'Content-Type': 'application/json'

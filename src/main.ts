@@ -2,7 +2,7 @@
  * @Author: zhanglitao@zuoyebang.com
  * @Date: 2023-07-03 20:15:50
  * @LastEditors: zhanglitao@zuoyebang.com
- * @LastEditTime: 2023-07-10 15:29:05
+ * @LastEditTime: 2023-08-04 14:22:22
  * @FilePath: /nestjs-demo/src/main.ts
  * @Description: 
  */
@@ -10,6 +10,11 @@ import { NestFactory } from '@nestjs/core';
 import { NestExpressApplication } from '@nestjs/platform-express';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
+
+import helmet from "helmet"; // 
+import * as csurf from 'csurf'; // csrf
+import rateLimit from 'express-rate-limit'; // 限速
+
 
 import { AppModule } from './app.module';
 import { TransformInterceptor } from './Interceptors/transform.interceptor';
@@ -41,6 +46,16 @@ async function bootstrap() {
 
   app.use(bodyParser.json({ limit: '50mb' }));
   app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+
+  app.use(helmet());
+  app.use(csurf());
+  app.use(
+    rateLimit({
+      windowMs: 15 * 60 * 1000, // 15 minutes
+      max: 100, // limit each IP to 100 requests per windowMs
+    }),
+  );
+
   await app.listen(3000);
 }
 bootstrap();
