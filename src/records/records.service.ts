@@ -2,7 +2,7 @@
  * @Author: zhanglitao@zuoyebang.com
  * @Date: 2023-07-09 14:22:08
  * @LastEditors: zhanglitao@zuoyebang.com
- * @LastEditTime: 2023-07-09 15:22:24
+ * @LastEditTime: 2023-08-04 16:15:21
  * @FilePath: /nestjs-demo/src/records/records.service.ts
  * @Description: 
  */
@@ -38,6 +38,17 @@ export class RecordsService {
   }
 
   async remove(id: number) {
+    const record = await this.recordRepository.preload({
+      id: `${id}`,
+      isDel: 1,
+    });
+    if (!record) {
+      throw new NotFoundException(`record ${id} not found`);
+    }
+    return this.recordRepository.save(record);
+  }
+
+  async delete(id: number) {
     const record = await this.findOne(id);
     return this.recordRepository.remove(record);
   }
